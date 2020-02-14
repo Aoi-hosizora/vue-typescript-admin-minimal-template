@@ -1,5 +1,5 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
-import { getSidebarStatus, getSize, setSidebarStatus, setSize } from '@/utils/cookies';
+import { getSidebarStatus, setSidebarStatus } from '@/utils/cookies';
 import store from '@/store';
 
 export enum DeviceType {
@@ -13,8 +13,6 @@ export interface AppState {
         opened: boolean;
         withoutAnimation: boolean;
     };
-    language: string;
-    size: string;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -25,8 +23,8 @@ class App extends VuexModule implements AppState {
     };
 
     public device = DeviceType.Desktop;
-    public size = getSize() || 'medium';
 
+    // mutation
     @Mutation
     private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
         this.sidebar.opened = !this.sidebar.opened;
@@ -50,12 +48,7 @@ class App extends VuexModule implements AppState {
         this.device = device;
     }
 
-    @Mutation
-    private SET_SIZE(size: string) {
-        this.size = size;
-        setSize(this.size);
-    }
-
+    // action
     @Action
     public ToggleSideBar(withoutAnimation: boolean) {
         this.TOGGLE_SIDEBAR(withoutAnimation);
@@ -69,11 +62,6 @@ class App extends VuexModule implements AppState {
     @Action
     public ToggleDevice(device: DeviceType) {
         this.TOGGLE_DEVICE(device);
-    }
-
-    @Action
-    public SetSize(size: string) {
-        this.SET_SIZE(size);
     }
 }
 

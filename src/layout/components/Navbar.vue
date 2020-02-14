@@ -1,31 +1,24 @@
 <template>
     <div class="navbar">
-        <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container"
-                   @toggleClick="toggleSideBar" />
-        <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+        <hamburger
+            id="hamburger-container"
+            :is-active="sidebar.opened"
+            class="hamburger-container"
+            @toggleClick="toggleSideBar"
+        />
+        <breadcrumb class="breadcrumb-container" />
+
         <div class="right-menu">
-            <template v-if="device!=='mobile'">
-                <header-search class="right-menu-item" />
-                <error-log class="errLog-container right-menu-item hover-effect" />
-                <screenfull class="right-menu-item hover-effect" />
-                <el-tooltip content="布局大小" effect="dark" placement="bottom">
-                    <size-select class="right-menu-item hover-effect" />
-                </el-tooltip>
-                <lang-select class="right-menu-item hover-effect" />
-            </template>
-            <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
+            <el-dropdown class="avatar-container hover-effect" trigger="click">
                 <div class="avatar-wrapper">
                     <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" alt="avatar">
                     <i class="el-icon-caret-bottom" />
                 </div>
-                <el-dropdown-menu slot="dropdown">
-                    <router-link to="/profile/">
-                        <el-dropdown-item>个人中心</el-dropdown-item>
-                    </router-link>
+                <el-dropdown-menu slot="dropdown" class="user-dropdown">
                     <router-link to="/">
                         <el-dropdown-item>首页</el-dropdown-item>
                     </router-link>
-                    <a target="_blank" :href="githubUrl">
+                    <a target="_blank" href="https://github.com/Aoi-hosizora">
                         <el-dropdown-item>项目地址</el-dropdown-item>
                     </a>
                     <el-dropdown-item divided @click.native="logout">
@@ -42,34 +35,18 @@
     import { AppModule } from '@/store/modules/app';
     import { UserModule } from '@/store/modules/user';
     import Breadcrumb from '@/components/Breadcrumb/index.vue';
-    import ErrorLog from '@/components/ErrorLog/index.vue';
     import Hamburger from '@/components/Hamburger/index.vue';
-    import HeaderSearch from '@/components/HeaderSearch/index.vue';
-    import LangSelect from '@/components/LangSelect/index.vue';
-    import Screenfull from '@/components/Screenfull/index.vue';
-    import SizeSelect from '@/components/SizeSelect/index.vue';
 
     @Component({
         name: 'Navbar',
         components: {
             Breadcrumb,
-            ErrorLog,
             Hamburger,
-            HeaderSearch,
-            LangSelect,
-            Screenfull,
-            SizeSelect,
         },
     })
     export default class extends Vue {
-        githubUrl = 'https://github.com/Aoi-hosizora';
-
         get sidebar() {
             return AppModule.sidebar;
-        }
-
-        get device() {
-            return AppModule.device.toString();
         }
 
         get avatar() {

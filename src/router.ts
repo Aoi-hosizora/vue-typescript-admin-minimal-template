@@ -5,26 +5,10 @@ import Layout from '@/layout/index.vue';
 
 Vue.use(VueRouter);
 
-const constantRoutes: RouteConfig[] = [
-    {
-        path: '/redirect',
-        component: Layout,
-        meta: { hidden: true },
-        children: [
-            {
-                path: '/redirect/:path(.*)',
-                component: () => import('@/views/redirect/redirect.vue'),
-            },
-        ],
-    },
+export const constantRoutes: RouteConfig[] = [
     {
         path: '/login',
-        component: () => import('@/views/login/login.vue'),
-        meta: { hidden: true },
-    },
-    {
-        path: '/auth-redirect',
-        component: () => import('@/views/redirect/auth-redirect.vue'),
+        component: () => import('@/views/login/index.vue'),
         meta: { hidden: true },
     },
     {
@@ -37,19 +21,27 @@ const constantRoutes: RouteConfig[] = [
                 component: () => import('@/views/dashboard/index.vue'),
                 name: 'Dashboard',
                 meta: {
-                    title: 'dashboard',
+                    title: 'Dashboard',
                     icon: 'dashboard',
-                    affix: true,
                 },
             },
         ],
     },
 ];
 
-const createRouter = () => new VueRouter({
-    routes: constantRoutes,
-});
+export const asyncRoutes: RouteConfig[] = [];
+
+function createRouter() {
+    return new VueRouter({
+        routes: constantRoutes,
+    });
+}
 
 const router = createRouter();
+
+export function resetRouter() {
+    const newRouter = createRouter();
+    (router as any).matcher = (newRouter as any).matcher; // reset router
+}
 
 export default router;

@@ -9,9 +9,12 @@
         "svg": "vsvg -s ./src/icons/svg -t ./src/icons/components --ext ts --es6"
     },
     "dependencies": {
+        "axios": "^0.19.2",
         "core-js": "^3.6.4",
         "element-ui": "^2.13.0",
         "js-cookie": "^2.2.1",
+        "normalize.css": "^8.0.1",
+        "path-to-regexp": "^6.1.0",
         "vue": "^2.6.11",
         "vue-class-component": "^7.2.2",
         "vue-property-decorator": "^8.3.0",

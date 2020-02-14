@@ -1,11 +1,12 @@
 <template>
-    <div class="login">
-        <el-form ref="loginForm"
-                 :model="loginForm"
-                 :rules="loginRules"
-                 class="login-form"
-                 autocomplete="on"
-                 label-position="left"
+    <div class="login-container">
+        <el-form
+            ref="loginForm"
+            :model="loginForm"
+            :rules="loginRules"
+            class="login-form"
+            autocomplete="on"
+            label-position="left"
         >
             <div class="title-container">
                 <h3 class="title">登录</h3>
@@ -26,36 +27,25 @@
                 />
             </el-form-item>
 
-            <el-tooltip
-                v-model="capsTooltip"
-                content="Caps lock is On"
-                placement="right"
-                manual
-            >
-                <el-form-item prop="password">
-                    <span class="svg-container">
-                        <svg-icon name="password" />
-                    </span>
-                    <el-input
-                        placeholder="密码"
-                        v-model="loginForm.password"
-                        ref="password"
-                        name="password"
-                        :type="passwordType"
-                        tabindex="2"
-                        autocomplete="on"
-                        key="password"
-                        @keyup.native="checkCapslock"
-                        @blur="capsTooltip = false"
-                    />
-                    <span
-                        class="show-pwd"
-                        @click="showPassword"
-                    >
-                        <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
-                    </span>
-                </el-form-item>
-            </el-tooltip>
+            <el-form-item prop="password">
+                <span class="svg-container">
+                    <svg-icon name="password" />
+                </span>
+                <el-input
+                    placeholder="密码"
+                    v-model="loginForm.password"
+                    ref="password"
+                    name="password"
+                    :type="passwordType"
+                    tabindex="2"
+                    autocomplete="on"
+                    :key="passwordType"
+                    @keyup.enter.native="handleLogin"
+                />
+                <span class="show-pwd" @click="showPassword">
+                    <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
+                </span>
+            </el-form-item>
 
             <el-button
                 :loading="loading"
@@ -65,6 +55,11 @@
             >
                 登录
             </el-button>
+
+            <div class="tips">
+                <span style="margin-right:20px;">username: admin</span>
+                <span> password: any</span>
+            </div>
         </el-form>
     </div>
 </template>
@@ -79,14 +74,6 @@
         name: 'Login',
     })
     export default class extends Vue {
-        private passwordType = 'password';
-        private capsTooltip = false;
-
-        private showPassword() {
-            this.passwordType = this.passwordType === 'password' ? '' : 'password';
-            this.$nextTick(() => (this.$refs.password as Input).focus());
-        }
-
         private validateUsername = (rule: any, value: string, callback: Function) => {
             if (value.length <= 5) {
                 callback(new Error('Please enter the correct user name'));
@@ -114,12 +101,9 @@
         };
 
         private loading = false;
+        private passwordType = 'password';
         private redirect?: string;
         private otherQuery: Dictionary<string> = {};
-
-        private checkCapslock(e: KeyboardEvent) {
-            this.capsTooltip = e.key != null && e.key.length === 1 && (e.key >= 'A' && e.key <= 'Z');
-        }
 
         @Watch('$route', { immediate: true })
         private onRouteChange(route: Route) {
@@ -130,12 +114,9 @@
             }
         }
 
-        mounted() {
-            if (this.loginForm.username === '') {
-                (this.$refs.username as Input).focus();
-            } else if (this.loginForm.password === '') {
-                (this.$refs.password as Input).focus();
-            }
+        private showPassword() {
+            this.passwordType = this.passwordType === 'password' ? '' : 'password';
+            this.$nextTick(() => (this.$refs.password as Input).focus());
         }
 
         private handleLogin() {
@@ -167,13 +148,19 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
-    $lightGray: #eee;
-    $darkGray: #889aa4;
-    $loginBg: #2d3a4b;
-    $loginCursorColor: #fff;
+    $bg: #283443;
+    $light_gray: #fff;
+    $cursor: #fff;
 
+    @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+        .login-container .el-input input {
+            color: $cursor;
+        }
+    }
+
+    /* reset element-ui css */
     .login-container {
         .el-input {
             display: inline-block;
@@ -181,18 +168,18 @@
             width: 85%;
 
             input {
-                height: 47px;
                 background: transparent;
                 border: 0;
+                -webkit-appearance: none;
                 border-radius: 0;
                 padding: 12px 5px 12px 15px;
-                color: $lightGray;
-                caret-color: $loginCursorColor;
-                -webkit-appearance: none;
+                color: $light_gray;
+                height: 47px;
+                caret-color: $cursor;
 
                 &:-webkit-autofill {
-                    box-shadow: 0 0 0 1000px $loginBg inset !important;
-                    -webkit-text-fill-color: #fff !important;
+                    box-shadow: 0 0 0 1000px $bg inset !important;
+                    -webkit-text-fill-color: $cursor !important;
                 }
             }
         }
@@ -204,12 +191,18 @@
             color: #454545;
         }
     }
+</style>
+
+<style lang="scss" scoped>
+    $bg: #2d3a4b;
+    $dark_gray: #889aa4;
+    $light_gray: #eee;
 
     .login-container {
-        height: 100%;
+        min-height: 100%;
         width: 100%;
+        background-color: $bg;
         overflow: hidden;
-        background-color: $loginBg;
 
         .login-form {
             position: relative;
@@ -234,7 +227,7 @@
 
         .svg-container {
             padding: 6px 5px 6px 15px;
-            color: $darkGray;
+            color: $dark_gray;
             vertical-align: middle;
             width: 30px;
             display: inline-block;
@@ -245,19 +238,10 @@
 
             .title {
                 font-size: 26px;
-                color: $lightGray;
+                color: $light_gray;
                 margin: 0 auto 40px auto;
                 text-align: center;
                 font-weight: bold;
-            }
-
-            .set-language {
-                color: #fff;
-                position: absolute;
-                top: 3px;
-                font-size: 18px;
-                right: 0;
-                cursor: pointer;
             }
         }
 
@@ -266,7 +250,7 @@
             right: 10px;
             top: 7px;
             font-size: 16px;
-            color: $darkGray;
+            color: $dark_gray;
             cursor: pointer;
             user-select: none;
         }
