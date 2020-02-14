@@ -19,19 +19,16 @@
     import { Component } from 'vue-property-decorator';
     import { mixins } from 'vue-class-component';
     import { AppMain, Navbar, Sidebar } from './components';
-    import RightPanel from '@/components/RightPanel/index.vue';
     import ResizeMixin from './mixin/resize';
     import { AppModule } from '@/store/modules/app';
+    import { SettingsModule } from '@/store/modules/settings';
 
     @Component({
         name: 'Layout',
         components: {
             AppMain,
             Navbar,
-            RightPanel,
-            Settings,
             Sidebar,
-            TagsView,
         },
     })
     export default class extends mixins(ResizeMixin) {
@@ -41,14 +38,6 @@
                 openSidebar: this.sidebar.opened,
                 withoutAnimation: this.sidebar.withoutAnimation,
             };
-        }
-
-        get showSettings() {
-            return SettingsModule.showSettings;
-        }
-
-        get showTagsView() {
-            return SettingsModule.showTagsView;
         }
 
         get fixedHeader() {
@@ -63,7 +52,8 @@
 
 <style lang="scss" scoped>
 
-    $sideBarWidth: 210px;
+    @import '../styles/mixin';
+    @import '../styles/variables';
 
     .app-wrapper {
         @include clearfix;

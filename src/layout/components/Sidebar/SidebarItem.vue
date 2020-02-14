@@ -55,10 +55,7 @@
         @Prop({ default: '' }) private basePath!: string;
 
         get alwaysShowRootMenu() {
-            if (this.item.meta && this.item.meta.alwaysShow) {
-                return true;
-            }
-            return false;
+            return this.item.meta && this.item.meta.alwaysShow;
         }
 
         get showingChildNumber() {

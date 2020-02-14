@@ -150,17 +150,21 @@
 
 <style lang="scss">
 
-    $bg: #283443;
-    $light_gray: #fff;
-    $cursor: #fff;
+    @import '../../styles/variables';
 
-    @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-        .login-container .el-input input {
-            color: $cursor;
+    // References: https://www.zhangxinxu.com/wordpress/2018/01/css-caret-color-first-line/
+    @supports (-webkit-mask: none) and (not (cater-color: $loginCursorColor)) {
+        .login-container .el-input {
+            input {
+                color: $loginCursorColor;
+            }
+
+            input::first-line {
+                color: $lightGray;
+            }
         }
     }
 
-    /* reset element-ui css */
     .login-container {
         .el-input {
             display: inline-block;
@@ -168,18 +172,18 @@
             width: 85%;
 
             input {
+                height: 47px;
                 background: transparent;
                 border: 0;
-                -webkit-appearance: none;
                 border-radius: 0;
                 padding: 12px 5px 12px 15px;
-                color: $light_gray;
-                height: 47px;
-                caret-color: $cursor;
+                color: $lightGray;
+                caret-color: $loginCursorColor;
+                -webkit-appearance: none;
 
                 &:-webkit-autofill {
-                    box-shadow: 0 0 0 1000px $bg inset !important;
-                    -webkit-text-fill-color: $cursor !important;
+                    box-shadow: 0 0 0 1000 $loginBg inset !important;
+                    -webkit-text-fill-color: #fff !important;
                 }
             }
         }
@@ -194,15 +198,14 @@
 </style>
 
 <style lang="scss" scoped>
-    $bg: #2d3a4b;
-    $dark_gray: #889aa4;
-    $light_gray: #eee;
+
+    @import '../../styles/variables';
 
     .login-container {
-        min-height: 100%;
+        height: 100%;
         width: 100%;
-        background-color: $bg;
         overflow: hidden;
+        background-color: $loginBg;
 
         .login-form {
             position: relative;
@@ -227,7 +230,7 @@
 
         .svg-container {
             padding: 6px 5px 6px 15px;
-            color: $dark_gray;
+            color: $darkGray;
             vertical-align: middle;
             width: 30px;
             display: inline-block;
@@ -238,10 +241,19 @@
 
             .title {
                 font-size: 26px;
-                color: $light_gray;
+                color: $lightGray;
                 margin: 0 auto 40px auto;
                 text-align: center;
                 font-weight: bold;
+            }
+
+            .set-language {
+                color: #fff;
+                position: absolute;
+                top: 3px;
+                font-size: 18px;
+                right: 0;
+                cursor: pointer;
             }
         }
 
@@ -250,9 +262,10 @@
             right: 10px;
             top: 7px;
             font-size: 16px;
-            color: $dark_gray;
+            color: $darkGray;
             cursor: pointer;
             user-select: none;
         }
+
     }
 </style>

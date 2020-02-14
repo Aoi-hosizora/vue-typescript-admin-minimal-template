@@ -15,6 +15,7 @@
         "js-cookie": "^2.2.1",
         "normalize.css": "^8.0.1",
         "path-to-regexp": "^6.1.0",
+        "simple-progress-webpack-plugin": "^1.1.2",
         "vue": "^2.6.11",
         "vue-class-component": "^7.2.2",
         "vue-property-decorator": "^8.3.0",
@@ -24,8 +25,9 @@
         "vuex-module-decorators": "^0.16.1"
     },
     "devDependencies": {
-        "@types/node": "^13.7.0",
         "@types/js-cookie": "^2.2.4",
+        "@types/node": "^13.7.1",
+        "@types/webpack-env": "^1.15.1",
         "@typescript-eslint/eslint-plugin": "^2.18.0",
         "@typescript-eslint/parser": "^2.18.0",
         "@vue/cli-plugin-babel": "^4.2.0",
@@ -41,9 +43,12 @@
         "eslint-plugin-standard": "^4.0.0",
         "eslint-plugin-vue": "^6.1.2",
         "node-sass": "^4.12.0",
+        "sass": "^1.25.0",
         "sass-loader": "^8.0.2",
         "typescript": "~3.7.5",
         "vue-cli-plugin-element": "^1.0.1",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.11",
+        "ts-node-dev": "^1.0.0-pre.44",
+        "webpack": "^4.41.5"
     }
 }
