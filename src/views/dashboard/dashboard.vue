@@ -1,6 +1,6 @@
 <template>
-    <div id="layout">
-        <h1>Layout...</h1>
+    <div class="dashboard-container">
+        <h1>Dashboard</h1>
     </div>
 </template>
 
@@ -8,7 +8,7 @@
     import { Component, Vue } from 'vue-property-decorator';
 
     @Component({
-        name: 'Layout',
+        name: 'Dashboard',
     })
     export default class extends Vue {}
 </script>

@@ -6,14 +6,15 @@ import store from '@/store';
 import '@/styles/index.scss';
 import '@/icons/components';
 
+import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 import ElementUI from 'element-ui';
 import SvgIcon from 'vue-svgicon';
 
-import 'element-ui/lib/theme-chalk/index.css';
-import 'element-ui/lib/theme-chalk/display.css';
+import { AppModule } from '@/store/modules/app';
 
 Vue.use(ElementUI, {
-    size: 'medium',
+    size: AppModule.size,
 });
 
 Vue.use(SvgIcon, {
