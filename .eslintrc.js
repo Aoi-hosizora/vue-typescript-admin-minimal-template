@@ -20,10 +20,13 @@ module.exports = {
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
         'indent': 'off',
+        'space-before-function-paren': [2, 'never'],
         'comma-dangle': ['error', 'always-multiline'],
         'semi-style': ['error', 'last'],
         'semi': ['error', 'always'],
 
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         'vue/html-indent': ['error', 4, { 'baseIndent': 1 }],
         'vue/script-indent': ['error', 4, { 'baseIndent': 1 }],
         'vue/eqeqeq': 'error',
