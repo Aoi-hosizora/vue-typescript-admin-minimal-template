@@ -25,8 +25,12 @@ module.exports = {
         'semi-style': ['error', 'last'],
         'semi': ['error', 'always'],
 
+        '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unused-vars': ['error', {
+            'argsIgnorePattern': '^_'
+        }],
         'vue/html-indent': ['error', 4, { 'baseIndent': 1 }],
         'vue/script-indent': ['error', 4, { 'baseIndent': 1 }],
         'vue/eqeqeq': 'error',
@@ -41,4 +45,4 @@ module.exports = {
         'vue/match-component-file-name': 'error',
         'vue/object-curly-spacing': 'error'
     }
-}
+};

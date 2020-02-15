@@ -14,11 +14,9 @@ export interface UserState {
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements UserState {
     public token = getToken() || '';
-    public name = 'default name';
-    public avatar = 'https://panjiachen.github.io/vue-element-admin-site/home.png';
-    public roles: string[] = [
-        'admin',
-    ];
+    public name = '';
+    public avatar = '';
+    public roles: string[] = [];
 
     // mutation
     @Mutation
@@ -47,25 +45,18 @@ class User extends VuexModule implements UserState {
         let { username, password } = userInfo;
         username = username.trim();
         const { data } = await login({ username, password });
-        setToken(data);
-        this.SET_TOKEN(data);
+        const token = data.data!.token;
+        setToken(token);
+        this.SET_TOKEN(token);
     }
 
     @Action
-    public async GetUserInfo(token: string) {
-        if (this.token === '') {
+    public async GetUserInfo() {
+        if (!this.token) {
             throw Error('GetUserInfo: token is undefined!');
         }
-        const { data } = await getUserInfo(token);
-        if (!data) {
-            throw Error('Verification failed, please Login again.');
-        }
-        const { roles, name, avatar } = data.user;
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-            throw Error('GetUserInfo: roles must be a non-null array!');
-        }
+        const { data } = await getUserInfo();
+        const { roles, name, avatar } = data.data!;
         this.SET_ROLES(roles);
         this.SET_NAME(name);
         this.SET_AVATAR(avatar);
@@ -73,14 +64,14 @@ class User extends VuexModule implements UserState {
 
     @Action
     public async LogOut() {
-        if (this.token === '') {
+        if (!this.token) {
             throw Error('LogOut: token is undefined!');
         }
         await logout();
+
         // must remove token first
         removeToken();
         resetRouter();
-
         this.SET_TOKEN('');
         this.SET_ROLES([]);
     }

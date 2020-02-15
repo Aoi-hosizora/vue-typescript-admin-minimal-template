@@ -34,7 +34,7 @@
 
             <div class="tips">
                 <span style="margin-right:20px;">username: admin</span>
-                <span> password: any</span>
+                <span>password: 111111</span>
             </div>
         </el-form>
     </div>
@@ -80,15 +80,11 @@
         private loading = false;
         private passwordType = 'password';
         private redirect?: string;
-        private otherQuery: Dictionary<string> = {};
 
         @Watch('$route', { immediate: true })
         private onRouteChange(route: Route) {
             const query = route.query as Dictionary<string>;
-            if (query) {
-                this.redirect = query.redirect;
-                this.otherQuery = this.getOtherQuery(query);
-            }
+            this.redirect = query.redirect;
         }
 
         private showPassword() {
@@ -103,23 +99,15 @@
                     await UserModule.Login(this.loginForm);
                     await this.$router.push({
                         path: this.redirect || '/',
-                        query: this.otherQuery,
                     });
-                    this.loading = false;
+                    setTimeout(() => {
+                        this.loading = false;
+                    }, 0.5 * 1000);
                 } else {
                     this.loading = false;
                     return false;
                 }
             });
-        }
-
-        private getOtherQuery(query: Dictionary<string>) {
-            return Object.keys(query).reduce((acc, cur) => {
-                if (cur !== 'redirect') {
-                    acc[cur] = query[cur];
-                }
-                return acc;
-            }, {} as Dictionary<string>);
         }
     }
 </script>

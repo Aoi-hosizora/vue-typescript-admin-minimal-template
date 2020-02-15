@@ -1,21 +1,22 @@
 import request from '@/utils/request';
+import { Result, Token, User } from '@/api/types';
+import { AxiosPromise } from 'axios';
 
-export const login = (data: any) =>
+export const login = (data: any): AxiosPromise<Result<Token>> =>
     request({
-        url: '/users/login',
+        url: '/auth/login',
         method: 'post',
         data,
     });
 
-export const logout = () =>
+export const logout = (): AxiosPromise<Result<null>> =>
     request({
-        url: '/users/logout',
-        method: 'post',
+        url: '/auth/logout',
+        method: 'delete',
     });
 
-export const getUserInfo = (token: string) =>
+export const getUserInfo = (): AxiosPromise<Result<User>> =>
     request({
-        url: '/users/info',
-        method: 'post',
-        params: { token },
+        url: '/auth/',
+        method: 'get',
     });
