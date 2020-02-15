@@ -1,13 +1,15 @@
 <template>
     <div :class="{'has-logo': showLogo}">
-        <sidebar-logo v-if="showLogo" :collapse="isCollapse" />
+        <sidebar-logo
+            v-if="showLogo"
+            :collapse="isCollapse"
+        />
         <el-scrollbar wrap-class="scrollbar-wrapper">
             <el-menu
                 :default-active="activeMenu"
                 :collapse="isCollapse"
                 :background-color="variables.menuBg"
                 :text-color="variables.menuText"
-                :active-text-color="menuActiveTextColor"
                 :unique-opened="false"
                 :collapse-transition="false"
                 mode="vertical"
@@ -53,10 +55,6 @@
             return SettingsModule.sidebarLogo;
         }
 
-        get menuActiveTextColor() {
-            return variables.menuActiveText;
-        }
-
         get variables() {
             return variables;
         }
@@ -64,6 +62,7 @@
         get activeMenu() {
             const route = this.$route;
             const { meta, path } = route;
+            // if set path, the sidebar will highlight the path you set
             if (meta.activeMenu) {
                 return meta.activeMenu;
             }
@@ -75,3 +74,48 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .sidebar-container {
+        // reset element-ui css
+        .horizontal-collapse-transition {
+            transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+        }
+
+        .scrollbar-wrapper {
+            overflow-x: hidden !important;
+        }
+
+        .el-scrollbar__view {
+            height: 100%
+        }
+
+        .el-scrollbar__bar {
+            &.is-vertical {
+                right: 0;
+            }
+
+            &.is-horizontal {
+                display: none;
+            }
+        }
+    }
+</style>
+
+<style lang="scss" scoped>
+    .el-scrollbar {
+        height: 100%
+    }
+
+    .has-logo {
+        .el-scrollbar {
+            height: calc(100% - 50px);
+        }
+    }
+
+    .el-menu {
+        border: none;
+        height: 100%;
+        width: 100% !important;
+    }
+</style>

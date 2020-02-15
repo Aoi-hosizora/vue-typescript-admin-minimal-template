@@ -1,16 +1,15 @@
 <template>
     <div :class="classObj" class="app-wrapper">
-        <div
-            v-if="classObj.mobile && sidebar.opened"
-            class="drawer-bg"
-            @click="handleClickOutside"
-        />
-        <sidebar class="sidebar-container" />
+        <div v-if="classObj.mobile && sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+        <Sidebar class="sidebar-container" />
         <div class="main-container">
             <div :class="{'fixed-header': fixedHeader}">
-                <navbar />
+                <Navbar />
             </div>
-            <app-main />
+            <AppMain />
+            <RightPanel v-if="showSettings">
+                <Settings />
+            </RightPanel>
         </div>
     </div>
 </template>
@@ -18,17 +17,23 @@
 <script lang="ts">
     import { Component } from 'vue-property-decorator';
     import { mixins } from 'vue-class-component';
-    import { AppMain, Navbar, Sidebar } from './components';
     import ResizeMixin from './mixin/resize';
     import { AppModule } from '@/store/modules/app';
     import { SettingsModule } from '@/store/modules/settings';
+    import Sidebar from '@/layout/components/Sidebar/index.vue';
+    import Navbar from '@/layout/components/Navbar/index.vue';
+    import AppMain from '@/layout/components/AppMain.vue';
+    import RightPanel from '@/components/RightPanel/index.vue';
+    import Settings from '@/layout/components/Settings/index.vue';
 
     @Component({
         name: 'Layout',
         components: {
+            Settings,
             AppMain,
             Navbar,
             Sidebar,
+            RightPanel,
         },
     })
     export default class extends mixins(ResizeMixin) {
@@ -38,6 +43,10 @@
                 openSidebar: this.sidebar.opened,
                 withoutAnimation: this.sidebar.withoutAnimation,
             };
+        }
+
+        get showSettings() {
+            return SettingsModule.showSettings;
         }
 
         get fixedHeader() {

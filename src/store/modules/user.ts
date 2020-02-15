@@ -14,9 +14,11 @@ export interface UserState {
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements UserState {
     public token = getToken() || '';
-    public name = '';
-    public avatar = '';
-    public roles: string[] = [];
+    public name = 'default name';
+    public avatar = 'https://panjiachen.github.io/vue-element-admin-site/home.png';
+    public roles: string[] = [
+        'admin',
+    ];
 
     // mutation
     @Mutation
@@ -50,13 +52,6 @@ class User extends VuexModule implements UserState {
     }
 
     @Action
-    public ResetToken() {
-        removeToken();
-        this.SET_TOKEN('');
-        this.SET_ROLES([]);
-    }
-
-    @Action
     public async GetUserInfo(state: UserState) {
         if (this.token === '') {
             throw Error('GetUserInfo: token is undefined!');
@@ -66,6 +61,8 @@ class User extends VuexModule implements UserState {
             throw Error('Verification failed, please Login again.');
         }
         const { roles, name, avatar } = data.user;
+
+        // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
             throw Error('GetUserInfo: roles must be a non-null array!');
         }
@@ -80,9 +77,18 @@ class User extends VuexModule implements UserState {
             throw Error('LogOut: token is undefined!');
         }
         await logout();
+        // must remove token first
         removeToken();
         resetRouter();
 
+        this.SET_TOKEN('');
+        this.SET_ROLES([]);
+    }
+
+    @Action
+    public ResetToken() {
+        // must remove token first
+        removeToken();
         this.SET_TOKEN('');
         this.SET_ROLES([]);
     }

@@ -1,15 +1,10 @@
 <template>
-    <div v-if="!item.meta || !item.meta.hidden">
+    <div v-if="!item.meta || !item.meta.hidden" :class="[isCollapse ? 'simple-mode' : 'full-mode', {'first-level': isFirstLevel}]">
         <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
             <sidebar-item-link v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
-                <el-menu-item
-                    :index="resolvePath(theOnlyOneChild.path)"
-                    :class="{'submenu-title-noDropdown': isFirstLevel}"
-                >
+                <el-menu-item :index="resolvePath(theOnlyOneChild.path)" :class="{'submenu-title-noDropdown': isFirstLevel}">
                     <svg-icon v-if="theOnlyOneChild.meta.icon" :name="theOnlyOneChild.meta.icon" />
-                    <span v-if="theOnlyOneChild.meta.title" slot="title">
-                        {{ theOnlyOneChild.meta.title }}
-                    </span>
+                    <span v-if="theOnlyOneChild.meta.title" slot="title">{{ theOnlyOneChild.meta.title }}</span>
                 </el-menu-item>
             </sidebar-item-link>
         </template>
@@ -55,12 +50,14 @@
         @Prop({ default: '' }) private basePath!: string;
 
         get alwaysShowRootMenu() {
-            return this.item.meta && this.item.meta.alwaysShow;
+            return !!(this.item.meta && this.item.meta.alwaysShow);
         }
 
         get showingChildNumber() {
             if (this.item.children) {
-                const showingChildren = this.item.children.filter((item) => !(item.meta && item.meta.hidden));
+                const showingChildren = this.item.children.filter((item) => {
+                    return !(item.meta && item.meta.hidden);
+                });
                 return showingChildren.length;
             }
             return 0;
@@ -77,6 +74,8 @@
                     }
                 }
             }
+            // If there is no children, return itself with path removed,
+            // because this.basePath already contains item's path information
             return { ...this.item, path: '' };
         }
 
@@ -91,3 +90,64 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @import '../../../styles/variables';
+
+    .el-submenu.is-active > .el-submenu__title {
+        color: $subMenuActiveText !important;
+    }
+
+    .full-mode {
+        .nest-menu .el-submenu > .el-submenu__title,
+        .el-submenu .el-menu-item {
+            min-width: $sideBarWidth !important;
+            background-color: $subMenuBg !important;
+
+            &:hover {
+                background-color: $subMenuHover !important;
+            }
+        }
+    }
+
+    .simple-mode {
+        &.first-level {
+            .submenu-title-noDropdown {
+                padding: 0 !important;
+                position: relative;
+
+                .el-tooltip {
+                    padding: 0 !important;
+                }
+            }
+
+            .el-submenu {
+                overflow: hidden;
+
+                & > .el-submenu__title {
+                    padding: 0 !important;
+
+                    .el-submenu__icon-arrow {
+                        display: none;
+                    }
+
+                    & > span {
+                        visibility: hidden;
+                    }
+                }
+            }
+        }
+    }
+</style>
+
+<style lang="scss" scoped>
+    .svg-icon {
+        margin-right: 16px;
+    }
+
+    .simple-mode {
+        .svg-icon {
+            margin-left: 20px;
+        }
+    }
+</style>

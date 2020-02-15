@@ -1,13 +1,6 @@
 <template>
     <div class="login-container">
-        <el-form
-            ref="loginForm"
-            :model="loginForm"
-            :rules="loginRules"
-            class="login-form"
-            autocomplete="on"
-            label-position="left"
-        >
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
             <div class="title-container">
                 <h3 class="title">登录</h3>
             </div>
@@ -17,13 +10,8 @@
                     <svg-icon name="user" />
                 </span>
                 <el-input
-                    placeholder="用户名"
-                    v-model="loginForm.username"
-                    ref="username"
-                    name="username"
-                    type="text"
-                    tabindex="1"
-                    autocomplete="on"
+                    placeholder="用户名" v-model="loginForm.username" ref="username" name="username"
+                    type="text" tabindex="1" autocomplete="on"
                 />
             </el-form-item>
 
@@ -32,27 +20,15 @@
                     <svg-icon name="password" />
                 </span>
                 <el-input
-                    placeholder="密码"
-                    v-model="loginForm.password"
-                    ref="password"
-                    name="password"
-                    :type="passwordType"
-                    tabindex="2"
-                    autocomplete="on"
-                    :key="passwordType"
-                    @keyup.enter.native="handleLogin"
+                    placeholder="密码" v-model="loginForm.password" ref="password" name="password"
+                    :type="passwordType" tabindex="2" autocomplete="on" :key="passwordType" @keyup.enter.native="handleLogin"
                 />
                 <span class="show-pwd" @click="showPassword">
                     <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
                 </span>
             </el-form-item>
 
-            <el-button
-                :loading="loading"
-                type="primary"
-                style="width:100%; margin-bottom:30px;"
-                @click.native.prevent="handleLogin"
-            >
+            <el-button :loading="loading" type="primary" style="width:100%; margin-bottom:30px;" @click.native.prevent="handleLogin">
                 登录
             </el-button>
 
@@ -69,6 +45,7 @@
     import { ElForm } from 'element-ui/types/form';
     import { Dictionary, Route } from 'vue-router/types/router';
     import { Input } from 'element-ui';
+    import { UserModule } from '@/store/modules/user';
 
     @Component({
         name: 'Login',
@@ -123,15 +100,14 @@
             (this.$refs.loginForm as ElForm).validate(async(valid: boolean) => {
                 if (valid) {
                     this.loading = true;
-                    // await UserModule.Login(this.loginForm);
+                    await UserModule.Login(this.loginForm);
                     await this.$router.push({
                         path: this.redirect || '/',
                         query: this.otherQuery,
                     });
-                    setTimeout(() => {
-                        this.loading = false;
-                    }, 0.5 * 1000);
+                    this.loading = false;
                 } else {
+                    this.loading = false;
                     return false;
                 }
             });
@@ -149,7 +125,6 @@
 </script>
 
 <style lang="scss">
-
     @import '../../styles/variables';
 
     // References: https://www.zhangxinxu.com/wordpress/2018/01/css-caret-color-first-line/
@@ -198,7 +173,6 @@
 </style>
 
 <style lang="scss" scoped>
-
     @import '../../styles/variables';
 
     .login-container {

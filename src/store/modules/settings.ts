@@ -8,6 +8,11 @@ export interface SettingsState {
     sidebarLogo: boolean;
 }
 
+export enum SettingKey {
+    FixedHeader = 'fixedHeader',
+    SidebarLogo = 'sidebarLogo',
+}
+
 @Module({ dynamic: true, store, name: 'settings' })
 class Settings extends VuexModule implements SettingsState {
     public showSettings = defaultSettings.showSettings;
@@ -15,15 +20,15 @@ class Settings extends VuexModule implements SettingsState {
     public sidebarLogo = defaultSettings.sidebarLogo;
 
     @Mutation
-    private CHANGE_SETTING(payload: { key: string; value: any }) {
+    private CHANGE_SETTING(payload: { key: SettingKey; value: any }) {
         const { key, value } = payload;
-        if (Object.prototype.hasOwnProperty.call(this, key)) {
-            (this as any)[key] = value;
+        if (Object.prototype.hasOwnProperty.call(this, key.toString())) {
+            (this as any)[key.toString()] = value;
         }
     }
 
     @Action
-    public ChangeSetting(payload: { key: string; value: any }) {
+    public ChangeSetting(payload: { key: SettingKey; value: any }) {
         this.CHANGE_SETTING(payload);
     }
 }

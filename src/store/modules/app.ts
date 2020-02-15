@@ -17,12 +17,11 @@ export interface AppState {
 
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements AppState {
+    public device = DeviceType.Desktop;
     public sidebar = {
         opened: getSidebarStatus() !== 'closed',
         withoutAnimation: false,
     };
-
-    public device = DeviceType.Desktop;
 
     // mutation
     @Mutation
