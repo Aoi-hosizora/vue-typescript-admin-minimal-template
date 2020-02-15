@@ -80,11 +80,15 @@
         private loading = false;
         private passwordType = 'password';
         private redirect?: string;
+        private otherQuery: Dictionary<string> = {};
 
         @Watch('$route', { immediate: true })
         private onRouteChange(route: Route) {
             const query = route.query as Dictionary<string>;
-            this.redirect = query.redirect;
+            if (query) {
+                this.redirect = query.redirect;
+                this.otherQuery = this.getOtherQuery(query);
+            }
         }
 
         private showPassword() {
@@ -99,15 +103,23 @@
                     await UserModule.Login(this.loginForm);
                     await this.$router.push({
                         path: this.redirect || '/',
+                        query: this.otherQuery,
                     });
-                    setTimeout(() => {
-                        this.loading = false;
-                    }, 0.5 * 1000);
+                    this.loading = false;
                 } else {
                     this.loading = false;
                     return false;
                 }
             });
+        }
+
+        private getOtherQuery(query: Dictionary<string>) {
+            return Object.keys(query).reduce((acc, cur) => {
+                if (cur !== 'redirect') {
+                    acc[cur] = query[cur];
+                }
+                return acc;
+            }, {} as Dictionary<string>);
         }
     }
 </script>

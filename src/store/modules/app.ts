@@ -15,7 +15,7 @@ export interface AppState {
     };
 }
 
-@Module({ dynamic: true, store, name: 'app' })
+@Module({ dynamic: true, store, name: 'app', namespaced: true })
 class App extends VuexModule implements AppState {
     public device = DeviceType.Desktop;
     public sidebar = {
@@ -48,17 +48,17 @@ class App extends VuexModule implements AppState {
     }
 
     // action
-    @Action
+    @Action({ rawError: true })
     public ToggleSideBar(withoutAnimation: boolean) {
         this.TOGGLE_SIDEBAR(withoutAnimation);
     }
 
-    @Action
+    @Action({ rawError: true })
     public CloseSideBar(withoutAnimation: boolean) {
         this.CLOSE_SIDEBAR(withoutAnimation);
     }
 
-    @Action
+    @Action({ rawError: true })
     public ToggleDevice(device: DeviceType) {
         this.TOGGLE_DEVICE(device);
     }

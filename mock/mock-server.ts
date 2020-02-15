@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     res.header('Expires', '-1');
     next();
 }); // no cache
-app.use(route);
+app.use('/mock/', route);
 
 // Event listener for HTTP server "error" event.
 function onError(error: any) {

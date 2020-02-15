@@ -30,7 +30,7 @@ export interface PermissionState {
     dynamicRoutes: RouteConfig[];
 }
 
-@Module({ dynamic: true, store, name: 'permission' })
+@Module({ dynamic: true, store, name: 'permission', namespaced: true })
 class Permission extends VuexModule implements PermissionState {
     public routes: RouteConfig[] = [];
     public dynamicRoutes: RouteConfig[] = [];
@@ -41,7 +41,7 @@ class Permission extends VuexModule implements PermissionState {
         this.dynamicRoutes = routes;
     }
 
-    @Action
+    @Action({ rawError: true })
     public GenerateRoutes(roles: string[]) {
         let accessedRoutes;
         if (roles.includes('admin')) {

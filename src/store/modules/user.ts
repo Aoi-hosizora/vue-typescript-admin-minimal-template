@@ -11,7 +11,7 @@ export interface UserState {
     roles: string[];
 }
 
-@Module({ dynamic: true, store, name: 'user' })
+@Module({ dynamic: true, store, name: 'user', namespaced: true })
 class User extends VuexModule implements UserState {
     public token = getToken() || '';
     public name = '';
@@ -40,17 +40,18 @@ class User extends VuexModule implements UserState {
     }
 
     // action
-    @Action
+    @Action({ rawError: true })
     public async Login(userInfo: { username: string; password: string }) {
         let { username, password } = userInfo;
         username = username.trim();
         const { data } = await login({ username, password });
+        console.log(data);
         const token = data.data!.token;
         setToken(token);
         this.SET_TOKEN(token);
     }
 
-    @Action
+    @Action({ rawError: true })
     public async GetUserInfo() {
         if (!this.token) {
             throw Error('GetUserInfo: token is undefined!');
@@ -62,7 +63,7 @@ class User extends VuexModule implements UserState {
         this.SET_AVATAR(avatar);
     }
 
-    @Action
+    @Action({ rawError: true })
     public async LogOut() {
         if (!this.token) {
             throw Error('LogOut: token is undefined!');
@@ -76,7 +77,7 @@ class User extends VuexModule implements UserState {
         this.SET_ROLES([]);
     }
 
-    @Action
+    @Action({ rawError: true })
     public ResetToken() {
         // must remove token first
         removeToken();

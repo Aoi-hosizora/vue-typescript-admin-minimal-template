@@ -13,7 +13,7 @@ export enum SettingKey {
     SidebarLogo = 'sidebarLogo',
 }
 
-@Module({ dynamic: true, store, name: 'settings' })
+@Module({ dynamic: true, store, name: 'settings', namespaced: true })
 class Settings extends VuexModule implements SettingsState {
     public showSettings = defaultSettings.showSettings;
     public fixedHeader = defaultSettings.fixedHeader;
@@ -27,7 +27,7 @@ class Settings extends VuexModule implements SettingsState {
         }
     }
 
-    @Action
+    @Action({ rawError: true })
     public ChangeSetting(payload: { key: SettingKey; value: any }) {
         this.CHANGE_SETTING(payload);
     }

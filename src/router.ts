@@ -144,7 +144,7 @@ export const asyncRoutes: RouteConfig[] = [
 
 function createRouter() {
     return new VueRouter({
-        // mode: 'history', // require service support
+        mode: 'history', // require service support
         scrollBehavior: (to, from, savedPosition) => {
             if (savedPosition) {
                 return savedPosition;

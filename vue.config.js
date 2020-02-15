@@ -5,7 +5,9 @@ const mockServerPort = 9528;
 const name = 'Vue Typescript Admin';
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '/vue-typescript-admin-template/' : '/',
+    publicPath: '/',
+    outputDir: 'dist',
+    assetsDir: 'static',
     lintOnSave: process.env.NODE_ENV === 'development',
     productionSourceMap: false,
     devServer: {
@@ -17,10 +19,8 @@ module.exports = {
         },
         progress: false,
         proxy: {
-            // change xxx-api/login => /mock-api/v1/login
-            // detail: https://cli.vuejs.org/config/#devserver-proxy
             [process.env.VUE_APP_BASE_API]: {
-                target: `http://localhost:${mockServerPort}/mock-api/v1`,
+                target: `http://localhost:${mockServerPort}/mock/`,
                 changeOrigin: true, // needed for virtual hosted sites
                 ws: true, // proxy web sockets
                 pathRewrite: {

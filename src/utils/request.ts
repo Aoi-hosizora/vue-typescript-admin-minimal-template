@@ -1,9 +1,10 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Message, MessageBox } from 'element-ui';
 import { UserModule } from '@/store/modules/user';
+import { Result } from '@/api/types';
 
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+    baseURL: process.env.VUE_APP_BASE_API,
     timeout: 5000,
     // withCredentials: true // send cookies when cross-domain requests
 });
@@ -24,7 +25,7 @@ service.interceptors.request.use(
 
 // Response interceptors
 service.interceptors.response.use(
-    (response) => {
+    (response: AxiosResponse) => {
         // Some example codes here:
         // code == 20000: success
         // code == 50001: invalid access token
@@ -33,14 +34,14 @@ service.interceptors.response.use(
         // code == 50004: invalid user (user not exist)
         // code == 50005: username or password is incorrect
         // You can change this part for your own usage.
-        const res = response.data;
-        if (res.code !== 20000) {
+        const data = response.data;
+        if (data.code !== 20000) {
             Message({
-                message: res.message || 'Error',
+                message: data.message || 'Error',
                 type: 'error',
                 duration: 5 * 1000,
             });
-            if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+            if (data.code === 50008 || data.code === 50012 || data.code === 50014) {
                 MessageBox.confirm(
                     '你已被登出，可以取消继续留在该页面，或者重新登录',
                     '确定登出',
@@ -54,9 +55,9 @@ service.interceptors.response.use(
                     location.reload(); // To prevent bugs from vue-router
                 });
             }
-            return Promise.reject(new Error(res.message || 'Error'));
+            return Promise.reject(new Error(data.message || 'Error'));
         } else {
-            return response.data;
+            return response;
         }
     },
     (error) => {
