@@ -3,15 +3,19 @@ import { RouteConfig } from 'vue-router';
 import { asyncRoutes, constantRoutes } from '@/router';
 import store from '@/store';
 
-const hasPermission = (roles: string[], route: RouteConfig) => {
+function hasPermission(roles: string[], route: RouteConfig) {
     if (route.meta && route.meta.roles) {
         return roles.some(role => route.meta.roles.includes(role));
     } else {
+        // undefined meta or roles => all allowed
         return true;
     }
-};
+}
 
-export const filterAsyncRoutes = (routes: RouteConfig[], roles: string[]) => {
+/**
+ * Filter by route meta.role
+ */
+function filterAsyncRoutes(routes: RouteConfig[], roles: string[]) {
     const res: RouteConfig[] = [];
     routes.forEach(route => {
         const r = { ...route };
@@ -23,7 +27,7 @@ export const filterAsyncRoutes = (routes: RouteConfig[], roles: string[]) => {
         }
     });
     return res;
-};
+}
 
 export interface PermissionState {
     routes: RouteConfig[];
@@ -43,13 +47,7 @@ class Permission extends VuexModule implements PermissionState {
 
     @Action({ rawError: true })
     public GenerateRoutes(roles: string[]) {
-        let accessedRoutes;
-        if (roles.includes('admin')) {
-            accessedRoutes = asyncRoutes;
-        } else {
-            accessedRoutes = filterAsyncRoutes(asyncRoutes, roles);
-        }
-        this.SET_ROUTES(accessedRoutes);
+        this.SET_ROUTES(filterAsyncRoutes(asyncRoutes, roles));
     }
 }
 

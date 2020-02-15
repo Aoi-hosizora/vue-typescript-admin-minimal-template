@@ -14,9 +14,10 @@
 </template>
 
 <script lang="ts">
-    import pathToRegexp from 'path-to-regexp';
+    import { compile } from 'path-to-regexp';
     import { Component, Vue, Watch } from 'vue-property-decorator';
     import { RouteRecord } from 'vue-router';
+    import { dashBoardRoute } from '@/router';
 
     @Component({
         name: 'Breadcrumb',
@@ -39,7 +40,7 @@
             let matched = this.$route.matched.filter((item) => item.meta && item.meta.title);
             const first = matched[0];
             if (!this.isDashboard(first)) {
-                matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } } as RouteRecord].concat(matched);
+                matched = [dashBoardRoute as RouteRecord].concat(matched);
             }
             this.breadcrumbs = matched.filter((item) => {
                 return item.meta && item.meta.title && item.meta.breadcrumb !== false;
@@ -57,17 +58,19 @@
         private pathCompile(path: string) {
             // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
             const { params } = this.$route;
-            const toPath = pathToRegexp.compile(path);
+            const toPath = compile(path);
             return toPath(params);
         }
 
         private handleLink(item: any) {
+            // Throw Error "NavigationDuplicated"
+            // https://github.com/vuejs/vue-router/issues/2872
             const { redirect, path } = item;
             if (redirect) {
-                this.$router.push(redirect);
+                this.$router.push(redirect).catch(_err => {});
                 return;
             }
-            this.$router.push(this.pathCompile(path));
+            this.$router.push(this.pathCompile(path)).catch(_err => {});
         }
     }
 </script>

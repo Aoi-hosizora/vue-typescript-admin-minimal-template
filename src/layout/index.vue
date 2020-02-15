@@ -60,7 +60,6 @@
 </script>
 
 <style lang="scss" scoped>
-
     @import '../styles/mixin';
     @import '../styles/variables';
 

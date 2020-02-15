@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import VueRouter, { RouteConfig, RouteRecord } from 'vue-router';
 
 import Layout from '@/layout/index.vue';
 
@@ -42,6 +42,7 @@ export const constantRoutes: RouteConfig[] = [
     },
     {
         path: '/',
+        name: 'Dashboard',
         component: Layout,
         redirect: '/dashboard',
         children: [
@@ -59,15 +60,58 @@ export const constantRoutes: RouteConfig[] = [
 ];
 
 /**
+ * Only export dashboard used in breadCrumb
+ */
+export const dashBoardRoute = { path: '/dashboard', meta: { title: 'Dashboard' } } as RouteRecord;
+
+/**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes: RouteConfig[] = [
     {
-        path: '/nested',
+        path: '/perm-demo/admin',
         component: Layout,
-        redirect: '/nested/menu1',
+        redirect: '/perm-demo/admin/',
+        meta: {
+            roles: ['admin'],
+        },
+        children: [
+            {
+                path: '',
+                name: 'PermDemo-Admin',
+                component: () => import('@/views/perm-demo/admin/index.vue'),
+                meta: {
+                    title: 'Admin used',
+                    icon: 'user',
+                },
+            },
+        ],
+    },
+    {
+        path: '/perm-demo/editor',
+        component: Layout,
+        redirect: '/perm-demo/editor/',
+        meta: {
+            roles: ['editor'],
+        },
+        children: [
+            {
+                path: '',
+                name: 'PermDemo-Editor',
+                component: () => import('@/views/perm-demo/editor/index.vue'),
+                meta: {
+                    title: 'Editor used',
+                    icon: 'user',
+                },
+            },
+        ],
+    },
+    {
+        path: '/nested',
         name: 'Nested',
+        component: Layout,
+        redirect: '/nested/menu1/menu1-1',
         meta: {
             title: 'Nested',
             icon: 'nested',
@@ -75,62 +119,69 @@ export const asyncRoutes: RouteConfig[] = [
         children: [
             {
                 path: 'menu1',
-                component: () => import('@/views/nested/menu1/index.vue'), // Parent router-view
                 name: 'Menu1',
+                component: () => import('@/views/nested/menu1/index.vue'), // Parent router-view
+                redirect: '/nested/menu1/menu1-1',
                 meta: { title: 'Menu1' },
                 children: [
                     {
                         path: 'menu1-1',
-                        component: () => import('@/views/nested/menu1/menu1-1/index.vue'),
                         name: 'Menu1-1',
+                        component: () => import('@/views/nested/menu1/menu1-1/index.vue'),
                         meta: { title: 'Menu1-1' },
                     },
                     {
                         path: 'menu1-2',
-                        component: () => import('@/views/nested/menu1/menu1-2/index.vue'),
                         name: 'Menu1-2',
+                        component: () => import('@/views/nested/menu1/menu1-2/index.vue'),
+                        redirect: '/nested/menu1/menu1-2/menu1-2-1',
                         meta: { title: 'Menu1-2' },
                         children: [
                             {
                                 path: 'menu1-2-1',
-                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1/index.vue'),
                                 name: 'Menu1-2-1',
+                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1/index.vue'),
                                 meta: { title: 'Menu1-2-1' },
                             },
                             {
                                 path: 'menu1-2-2',
-                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2/index.vue'),
                                 name: 'Menu1-2-2',
+                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2/index.vue'),
                                 meta: { title: 'Menu1-2-2' },
                             },
                         ],
                     },
                     {
                         path: 'menu1-3',
-                        component: () => import('@/views/nested/menu1/menu1-3/index.vue'),
                         name: 'Menu1-3',
+                        component: () => import('@/views/nested/menu1/menu1-3/index.vue'),
                         meta: { title: 'Menu1-3' },
                     },
                 ],
             },
             {
                 path: 'menu2',
+                name: 'Menu2',
                 component: () => import('@/views/nested/menu2/index.vue'),
                 meta: { title: 'menu2' },
             },
         ],
     },
     {
-        path: 'external-link',
+        path: '/external-link',
         component: Layout,
+        meta: {
+            title: 'External link',
+            icon: 'link',
+        },
         children: [
             {
                 path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-                meta: { title: 'vue-element-admin Homepage', icon: 'link' },
+                meta: { title: 'Homepage', icon: 'link' },
             },
             {
                 path: 'https://github.com/Aoi-hosizora/vue-typescript-admin-min-template',
-                meta: { title: 'Project Page', icon: 'link' },
+                meta: { title: 'Project code', icon: 'link' },
             },
         ],
     },

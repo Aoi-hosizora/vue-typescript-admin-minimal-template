@@ -58,8 +58,6 @@ export const logout = (req: Request, res: Response) => {
 export const currentUser = (req: Request, res: Response) => {
     return res.json({
         code: 20000,
-        data: {
-            user: req.header('X-Access-Token') === 'admin-token' ? userList[0] : userList[1],
-        },
+        data: req.header('X-Access-Token') === 'admin-token' ? userList[0] : userList[1],
     });
 };

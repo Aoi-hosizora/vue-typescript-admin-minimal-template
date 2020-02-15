@@ -25,6 +25,8 @@ module.exports = {
         'semi-style': ['error', 'last'],
         'semi': ['error', 'always'],
 
+        'no-empty-function': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',

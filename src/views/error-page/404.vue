@@ -15,12 +15,12 @@
                     All rights reserved
                 </div>
                 <div class="text-404__headline">
-                    {{ message }}
+                    404 Page Not Found
                 </div>
                 <div class="text-404__info">
                     Please check that the URL you entered is correct, or click the button below to return to the homepage.
                 </div>
-                <a href="" class="text-404__return-home">
+                <a href="/" class="text-404__return-home">
                     Back to home
                 </a>
             </div>
@@ -34,9 +34,7 @@
     @Component({
         name: 'Page404',
     })
-    export default class extends Vue {
-        private message = '404 Page Not Found';
-    }
+    export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
