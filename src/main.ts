@@ -8,8 +8,10 @@ import ElementUI from 'element-ui';
 import SvgIcon from 'vue-svgicon';
 
 import 'element-ui/lib/theme-chalk/index.css';
+import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
 import '@/styles/index.scss';
-import '@/icons/components';
+import '@/icons/components/index';
+import '@/permission'; // permission control
 
 Vue.use(ElementUI);
 Vue.use(SvgIcon, {

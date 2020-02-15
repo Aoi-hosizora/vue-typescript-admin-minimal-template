@@ -47,16 +47,16 @@ class User extends VuexModule implements UserState {
         let { username, password } = userInfo;
         username = username.trim();
         const { data } = await login({ username, password });
-        setToken(data.accessToken);
-        this.SET_TOKEN(data.accessToken);
+        setToken(data);
+        this.SET_TOKEN(data);
     }
 
     @Action
-    public async GetUserInfo(state: UserState) {
+    public async GetUserInfo(token: string) {
         if (this.token === '') {
             throw Error('GetUserInfo: token is undefined!');
         }
-        const { data } = await getUserInfo(state.token);
+        const { data } = await getUserInfo(token);
         if (!data) {
             throw Error('Verification failed, please Login again.');
         }
