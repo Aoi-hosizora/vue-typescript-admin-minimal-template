@@ -45,7 +45,6 @@ class User extends VuexModule implements UserState {
         let { username, password } = userInfo;
         username = username.trim();
         const { data } = await login({ username, password });
-        console.log(data);
         const token = data.data!.token;
         setToken(token);
         this.SET_TOKEN(token);

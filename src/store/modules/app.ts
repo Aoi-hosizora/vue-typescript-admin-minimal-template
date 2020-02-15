@@ -7,6 +7,11 @@ export enum DeviceType {
     Desktop,
 }
 
+enum SidebarState {
+    Opened = 'opened',
+    Closed = 'closed',
+}
+
 export interface AppState {
     device: DeviceType;
     sidebar: {
@@ -29,9 +34,9 @@ class App extends VuexModule implements AppState {
         this.sidebar.opened = !this.sidebar.opened;
         this.sidebar.withoutAnimation = withoutAnimation;
         if (this.sidebar.opened) {
-            setSidebarStatus('opened');
+            setSidebarStatus(SidebarState.Opened);
         } else {
-            setSidebarStatus('closed');
+            setSidebarStatus(SidebarState.Closed);
         }
     }
 
@@ -39,7 +44,7 @@ class App extends VuexModule implements AppState {
     private CLOSE_SIDEBAR(withoutAnimation: boolean) {
         this.sidebar.opened = false;
         this.sidebar.withoutAnimation = withoutAnimation;
-        setSidebarStatus('closed');
+        setSidebarStatus(SidebarState.Closed);
     }
 
     @Mutation

@@ -22,8 +22,8 @@ class Settings extends VuexModule implements SettingsState {
     @Mutation
     private CHANGE_SETTING(payload: { key: SettingKey; value: any }) {
         const { key, value } = payload;
-        if (Object.prototype.hasOwnProperty.call(this, key.toString())) {
-            (this as any)[key.toString()] = value;
+        if (Object.prototype.hasOwnProperty.call(this, key)) {
+            (this as any)[key] = value;
         }
     }
 

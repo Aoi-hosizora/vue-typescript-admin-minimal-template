@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Message, MessageBox } from 'element-ui';
 import { UserModule } from '@/store/modules/user';
-import { Result } from '@/api/types';
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,

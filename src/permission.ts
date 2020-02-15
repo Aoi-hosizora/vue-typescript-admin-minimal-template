@@ -14,7 +14,6 @@ const whiteList = ['/login'];
 router.beforeEach(async(to: Route, _: Route, next: any) => {
     // Start progress bar
     NProgress.start();
-    NProgress.start();
 
     // Determine whether the user has logged in
     if (UserModule.token) {
@@ -24,9 +23,7 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
             NProgress.done();
         } else {
             // Check whether the user has obtained his permission roles
-            if (!UserModule.roles.length) {
-                next();
-            } else {
+            if (UserModule.roles.length === 0) {
                 try {
                     // Note: roles must be a object array! such as: ['admin'] or ['developer', 'editor']
                     await UserModule.GetUserInfo();
@@ -45,6 +42,8 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
                     next(`/login?redirect=${to.path}`);
                     NProgress.done();
                 }
+            } else {
+                next();
             }
         }
     } else {
