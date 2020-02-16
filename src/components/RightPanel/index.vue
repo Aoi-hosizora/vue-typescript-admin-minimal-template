@@ -2,7 +2,7 @@
     <div ref="rightPanel" :class="{show: show}" class="rightPanel-container">
         <div class="rightPanel-background" />
         <div class="rightPanel">
-            <div class="handle-button" :style="{'top': buttonTop+'px','background-color': 'blue'}" @click="show=!show">
+            <div class="handle-button" :style="{'top': buttonTop+'px','background-color': 'gray'}" @click="show=!show">
                 <i :class="show?'el-icon-close':'el-icon-setting'" />
             </div>
             <div class="rightPanel-items">
@@ -21,7 +21,7 @@
     })
     export default class extends Vue {
         @Prop({ default: false }) private clickNotClose!: boolean;
-        @Prop({ default: 250 }) private buttonTop!: number;
+        @Prop({ default: 85 }) private buttonTop!: number;
 
         private show = false;
 

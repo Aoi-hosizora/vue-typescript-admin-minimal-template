@@ -2,10 +2,15 @@
 
 Minimal admin template built by Vue using Typescript and Scss
 
-### Function
+### Functions
 
 ```text
-
+Login / Logout
+Role pages
+404 page
+Table
+Tree
+Form
 ```
 
 ### Related Projects

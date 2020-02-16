@@ -69,6 +69,7 @@
 
         private onSubmit() {
             this.$message('submit!');
+            console.log(this.form);
         }
 
         private onCancel() {

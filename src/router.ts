@@ -70,16 +70,15 @@ export const dashBoardRoute = { path: '/dashboard', meta: { title: 'Dashboard' }
  */
 export const asyncRoutes: RouteConfig[] = [
     {
-        path: '/perm-demo/admin',
+        path: '/perm-admin',
+        name: 'perm-admin',
         component: Layout,
-        redirect: '/perm-demo/admin/',
         meta: {
             roles: ['admin'],
         },
         children: [
             {
                 path: '',
-                name: 'PermDemo-Admin',
                 component: () => import('@/views/perm-demo/admin/index.vue'),
                 meta: {
                     title: 'Admin used',
@@ -89,16 +88,15 @@ export const asyncRoutes: RouteConfig[] = [
         ],
     },
     {
-        path: '/perm-demo/editor',
+        path: '/perm-editor',
+        name: 'perm-editor',
         component: Layout,
-        redirect: '/perm-demo/editor/',
         meta: {
             roles: ['editor'],
         },
         children: [
             {
                 path: '',
-                name: 'PermDemo-Editor',
                 component: () => import('@/views/perm-demo/editor/index.vue'),
                 meta: {
                     title: 'Editor used',
@@ -109,8 +107,9 @@ export const asyncRoutes: RouteConfig[] = [
     },
     {
         path: '/example',
+        name: 'example',
         component: Layout,
-        redirect: '/example/table',
+        redirect: '/example/table/static',
         meta: {
             title: 'Example',
             icon: 'example',
@@ -118,16 +117,40 @@ export const asyncRoutes: RouteConfig[] = [
         children: [
             {
                 path: 'table',
-                name: 'Table',
+                name: 'table',
                 component: () => import('@/views/table/index.vue'),
+                redirect: '/example/table/static',
                 meta: {
                     title: 'Table',
                     icon: 'table',
                 },
+                children: [
+                    {
+                        path: 'static',
+                        name: 'table-static',
+                        component: () => import('@/views/table/static-table/index.vue'),
+                        meta: { title: 'Static Table' },
+                    },
+                    {
+                        path: 'editable',
+                        name: 'table-editable',
+                        component: () => import('@/views/table/inline-edit-table/index.vue'),
+                        meta: { title: 'Editable Table' },
+                    },
+                ],
+            },
+            {
+                path: 'tree',
+                name: 'tree',
+                component: () => import('@/views/tree/index.vue'),
+                meta: {
+                    title: 'Tree',
+                    icon: 'tree',
+                },
             },
             {
                 path: 'form',
-                name: 'Form',
+                name: 'form',
                 component: () => import('@/views/form/index.vue'),
                 meta: {
                     title: 'Form',
@@ -138,7 +161,7 @@ export const asyncRoutes: RouteConfig[] = [
     },
     {
         path: '/nested',
-        name: 'Nested',
+        name: 'nested',
         component: Layout,
         redirect: '/nested/menu1/menu1-1',
         meta: {
@@ -148,33 +171,33 @@ export const asyncRoutes: RouteConfig[] = [
         children: [
             {
                 path: 'menu1',
-                name: 'Menu1',
+                name: 'nested-menu1',
                 component: () => import('@/views/nested/menu1/index.vue'), // Parent router-view
                 redirect: '/nested/menu1/menu1-1',
                 meta: { title: 'Menu1' },
                 children: [
                     {
                         path: 'menu1-1',
-                        name: 'Menu1-1',
+                        name: 'nested-menu1-1',
                         component: () => import('@/views/nested/menu1/menu1-1/index.vue'),
                         meta: { title: 'Menu1-1' },
                     },
                     {
                         path: 'menu1-2',
-                        name: 'Menu1-2',
+                        name: 'nested-menu1-2',
                         component: () => import('@/views/nested/menu1/menu1-2/index.vue'),
                         redirect: '/nested/menu1/menu1-2/menu1-2-1',
                         meta: { title: 'Menu1-2' },
                         children: [
                             {
                                 path: 'menu1-2-1',
-                                name: 'Menu1-2-1',
+                                name: 'nested-menu1-2-1',
                                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1/index.vue'),
                                 meta: { title: 'Menu1-2-1' },
                             },
                             {
                                 path: 'menu1-2-2',
-                                name: 'Menu1-2-2',
+                                name: 'nested-menu1-2-2',
                                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2/index.vue'),
                                 meta: { title: 'Menu1-2-2' },
                             },
@@ -182,7 +205,7 @@ export const asyncRoutes: RouteConfig[] = [
                     },
                     {
                         path: 'menu1-3',
-                        name: 'Menu1-3',
+                        name: 'nested-menu1-3',
                         component: () => import('@/views/nested/menu1/menu1-3/index.vue'),
                         meta: { title: 'Menu1-3' },
                     },
@@ -190,7 +213,7 @@ export const asyncRoutes: RouteConfig[] = [
             },
             {
                 path: 'menu2',
-                name: 'Menu2',
+                name: 'nested-menu2',
                 component: () => import('@/views/nested/menu2/index.vue'),
                 meta: { title: 'menu2' },
             },
