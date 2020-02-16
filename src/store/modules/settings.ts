@@ -11,6 +11,7 @@ export interface SettingsState {
 export enum SettingKey {
     FixedHeader = 'fixedHeader',
     SidebarLogo = 'sidebarLogo',
+    BackToTop = 'backToTop',
 }
 
 @Module({ dynamic: true, store, name: 'settings', namespaced: true })
@@ -18,6 +19,7 @@ class Settings extends VuexModule implements SettingsState {
     public showSettings = defaultSettings.showSettings;
     public fixedHeader = defaultSettings.fixedHeader;
     public sidebarLogo = defaultSettings.sidebarLogo;
+    public backToTop = defaultSettings.backToTop;
 
     @Mutation
     private CHANGE_SETTING(payload: { key: SettingKey; value: any }) {

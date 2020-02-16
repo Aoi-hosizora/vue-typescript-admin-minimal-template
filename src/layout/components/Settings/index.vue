@@ -5,7 +5,12 @@
 
             <div class="drawer-item">
                 <span>显示侧边栏 Logo</span>
-                <el-switch v-model="showSidebarLogo" class="drawer-switch" />
+                <el-switch v-model="sidebarLogo" class="drawer-switch" />
+            </div>
+
+            <div class="drawer-item">
+                <span>显示回到顶部</span>
+                <el-switch v-model="backToTop" class="drawer-switch" />
             </div>
 
             <div class="drawer-item">
@@ -24,6 +29,14 @@
         name: 'Settings',
     })
     export default class extends Vue {
+        get sidebarLogo() {
+            return SettingsModule.sidebarLogo;
+        }
+
+        set sidebarLogo(value) {
+            SettingsModule.ChangeSetting({ key: SettingKey.SidebarLogo, value });
+        }
+
         get fixedHeader() {
             return SettingsModule.fixedHeader;
         }
@@ -32,12 +45,12 @@
             SettingsModule.ChangeSetting({ key: SettingKey.FixedHeader, value });
         }
 
-        get showSidebarLogo() {
-            return SettingsModule.sidebarLogo;
+        get backToTop() {
+            return SettingsModule.backToTop;
         }
 
-        set showSidebarLogo(value) {
-            SettingsModule.ChangeSetting({ key: SettingKey.SidebarLogo, value });
+        set backToTop(value) {
+            SettingsModule.ChangeSetting({ key: SettingKey.BackToTop, value });
         }
     }
 </script>

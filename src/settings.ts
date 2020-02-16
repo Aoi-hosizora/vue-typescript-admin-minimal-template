@@ -15,6 +15,10 @@ interface Settings {
      * If true, will fix the header component
      */
     fixedHeader: boolean;
+    /**
+     * Show BackToTop component
+     */
+    backToTop: boolean;
 }
 
 const settings: Settings = {
@@ -22,6 +26,7 @@ const settings: Settings = {
     showSettings: true,
     sidebarLogo: false,
     fixedHeader: false,
+    backToTop: true,
 };
 
 export default settings;

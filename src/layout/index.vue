@@ -10,6 +10,7 @@
             <RightPanel v-if="showSettings">
                 <Settings />
             </RightPanel>
+            <BackToTop />
         </div>
     </div>
 </template>
@@ -25,10 +26,12 @@
     import AppMain from '@/layout/components/AppMain.vue';
     import RightPanel from '@/components/RightPanel/index.vue';
     import Settings from '@/layout/components/Settings/index.vue';
+    import BackToTop from '@/components/BackToTop/index.vue';
 
     @Component({
         name: 'Layout',
         components: {
+            BackToTop,
             Settings,
             AppMain,
             Navbar,
