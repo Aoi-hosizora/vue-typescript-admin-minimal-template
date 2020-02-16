@@ -108,6 +108,35 @@ export const asyncRoutes: RouteConfig[] = [
         ],
     },
     {
+        path: '/example',
+        component: Layout,
+        redirect: '/example/table',
+        meta: {
+            title: 'Example',
+            icon: 'example',
+        },
+        children: [
+            {
+                path: 'table',
+                name: 'Table',
+                component: () => import('@/views/table/index.vue'),
+                meta: {
+                    title: 'Table',
+                    icon: 'table',
+                },
+            },
+            {
+                path: 'form',
+                name: 'Form',
+                component: () => import('@/views/form/index.vue'),
+                meta: {
+                    title: 'Form',
+                    icon: 'form',
+                },
+            },
+        ],
+    },
+    {
         path: '/nested',
         name: 'Nested',
         component: Layout,

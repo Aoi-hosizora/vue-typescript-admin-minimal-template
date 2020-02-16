@@ -31,7 +31,7 @@ for (let i = 2; i < 100; i++) {
     });
 }
 
-export const login = (req: Request, res: Response) => {
+export function login(req: Request, res: Response) {
     const { username } = req.body;
     for (const user of userList) {
         if (user.username === username) {
@@ -47,17 +47,17 @@ export const login = (req: Request, res: Response) => {
         code: 50004,
         message: 'Invalid User',
     });
-};
+}
 
-export const logout = (req: Request, res: Response) => {
+export function logout(req: Request, res: Response) {
     return res.json({
         code: 20000,
     });
-};
+}
 
-export const currentUser = (req: Request, res: Response) => {
+export function currentUser(req: Request, res: Response) {
     return res.json({
         code: 20000,
         data: req.header('X-Access-Token') === 'admin-token' ? userList[0] : userList[1],
     });
-};
+}
